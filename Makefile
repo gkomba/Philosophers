@@ -6,7 +6,7 @@
 #    By: gkomba <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 15:51:45 by gkomba            #+#    #+#              #
-#    Updated: 2024/09/04 13:35:33 by gkomba           ###   ########.fr        #
+#    Updated: 2024/09/04 17:58:11 by gkomba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,11 @@ ${NAME}: ${OBJS}
 	${CC} ${CFLGS} -o ${NAME} ${OBJS} ${LIBFT}/libft.a
 
 clean:
+	make clean -C ${LIBFT}
 	${RM} ${OBJS}
 
 fclean: clean
+	make fclean -C ${LIBFT}
 	${RM} ${NAME}
 
 re: fclean all
