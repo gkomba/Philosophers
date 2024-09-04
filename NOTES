@@ -1,0 +1,17 @@
+Se tivéssemos que esperar uma música terminar para poder abrir nosso navegador, ou se tivéssemos que reiniciar o computador para matar um programa preso em um loop infinito, morreríamos de frustração!
+
+Um thread de execução é uma sequência lógica de instruções dentro de um processo que é automaticamente gerenciado pelo kernel do sistema operacional. Um programa sequencial regular tem um único thread, mas os sistemas operacionais modernos nos permitem criar vários threads em nossos programas, todos os quais rodam em paralelo.
+
+Cada um dos threads de um processo tem seu próprio contexto: seu próprio ID, sua própria pilha, seu próprio ponteiro de instrução, seu próprio registrador de processador. Mas como todos os threads são parte do mesmo processo, eles compartilham o mesmo espaço de endereço de memória virtual: o mesmo código, o mesmo heap, as mesmas bibliotecas compartilhadas e os mesmos descritores de arquivo aberto.
+
+O contexto de um thread tem uma pegada menor em termos de recursos do que o contexto de um processo. O que significa que é muito mais rápido para o sistema criar um thread do que criar um processo. Alternar de um thread para o outro, comparado a alternar de um processo para outro, também é mais rápido.
+
+Os threads não têm a hierarquia estrita pai-filho que os processos têm. Em vez disso, eles formam um grupo de pares, independentemente de qual thread criou qual outra thread. A única distinção que a thread “principal” tem é ser a primeira a existir no início do processo. Isso significa que, dentro do mesmo processo, qualquer thread pode esperar que qualquer outra thread seja concluída ou matar qualquer outra thread.
+
+Além disso, qualquer thread pode ler e escrever na mesma memória virtual, o que torna a comunicação entre threads muito mais fácil do que a comunicação entre processos. Mais tarde, examinaremos os problemas que podem surgir dessa memória compartilhada.
+
+Uma das maiores qualidades dos threads é que todos eles compartilham a memória de seus processos. Cada thread tem sua própria pilha, mas os outros threads podem facilmente obter acesso a ela com um simples ponteiro. Além do mais, o heap e quaisquer descritores de arquivo abertos são totalmente compartilhados entre os threads.
+
+Essa memória compartilhada e a facilidade com que um thread pode acessar a memória de outro thread claramente também têm sua parcela de perigo: podem causar erros de sincronização desagradáveis.
+
+
