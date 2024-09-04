@@ -6,7 +6,7 @@
 #    By: gkomba <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 15:51:45 by gkomba            #+#    #+#              #
-#    Updated: 2024/09/03 18:06:06 by gkomba           ###   ########.fr        #
+#    Updated: 2024/09/04 13:35:33 by gkomba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,13 @@ CFLGS = -Wall -Wextra -Werror
 DTRCF = -fsanitize=thread -g
 CC = cc
 RM = rm -f
+LIBFT = libft
 
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${CFLGS} -o ${NAME} ${OBJS}
+	make -C ${LIBFT}
+	${CC} ${CFLGS} -o ${NAME} ${OBJS} ${LIBFT}/libft.a
 
 clean:
 	${RM} ${OBJS}

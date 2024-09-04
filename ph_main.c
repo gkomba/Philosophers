@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:15:51 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/03 16:32:43 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/04 17:03:09 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long      set_time(void)
+size_t  ft_set_time(void)
 {
     struct timeval time;
 
@@ -20,82 +20,101 @@ long long      set_time(void)
     return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 } 
 
-long long       time_diff(long long start_time)
+size_t  ft_time_diff(size_t start_time)
 {
-        return(set_time() - start_time);
+        return(ft_set_time() - start_time);
 }
-void    *funtion(void *arg)
+
+void    *ft_routine(void *arg)
 {
-    t_teste *philo;
+    t_philo *philo;
     int     stop;
 
-    philo = (t_teste *)arg;
-    stop = 0;
-    while(!stop)
+    philo = (t_philo *)arg;
+    philo->dead = 0;
+    while(philo->time_to_eat)
     {
-        printf("[%lld] o %d filosofo esta pensando\n", time_diff(philo->curr_time), philo->id_piho);
-        pthread_mutex_lock(philo->esquerdo);
-        printf("[%lld] o %d filosofo pegou o garfo esquerdo\n", time_diff(philo->curr_time), philo->id_piho);
-        pthread_mutex_lock(philo->direito);
-        printf("[%lld] o %d filosofo pegou o garfo direito\n", time_diff(philo->curr_time), philo->id_piho);
-        printf("[%lld] o %d filosofo esta comendo\n", time_diff(philo->curr_time), philo->id_piho);
-        usleep(philo->comer * 1000);
-        pthread_mutex_unlock(philo->esquerdo);
-        pthread_mutex_unlock(philo->direito);
-        printf("[%lld] o %d filosofo esta dormindo\n", time_diff(philo->curr_time), philo->id_piho);
-        usleep(philo->dormir * 1000);
-        stop = 1;
+        printf("[%lld] O %d filosofo esta pensando\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        usleep(philo->time_to_eat * 1000);
+        pthread_mutex_lock(philo->fork_l);
+        printf("[%lld] O %d filosofo pegou o garfo esquerdo\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        pthread_mutex_lock(philo->fork_r);
+        printf("[%lld] O %d filosofo pegou o garfo direito\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        printf("[%lld] O %d filosofo esta comendo\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        philo->times_eaten++;
+        usleep(philo->time_to_eat * 1000);
+        pthread_mutex_unlock(philo->fork_l);
+        pthread_mutex_unlock(philo->fork_r);
+        printf("[%lld] O %d filosofo esta dormindo\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        usleep(philo->time_to_sleep * 1000);
+        philo->time_to_eat--;
     }
     return NULL;
 }
 
-int main(int ac, char **av)
+int    init_philo(int nbr_of_philo, size_t time_to_die, size_t time_to_eat, size_t time_to_sleep)
 {
-    t_teste *philo;
-    int     nbr_philo;
-    pthread_t   *th;
+    t_philo *philo;
     pthread_mutex_t *forks;
-
-    nbr_philo = atoi(av[1]);
-    philo = (t_teste *)malloc(sizeof(t_teste) * nbr_philo);
     int     i;
-    th = (pthread_t *)malloc(sizeof(pthread_t) * nbr_philo);
-    forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * nbr_philo);
-    
+
+    philo = (t_philo *)malloc(sizeof(t_philo) * nbr_of_philo);
+    forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * nbr_of_philo);
     i = 0;
-    while (i < nbr_philo)
+    while (i < nbr_of_philo)
     {
         pthread_mutex_init(&forks[i], NULL);
         i++;
     }
     i = 0;
-    while (i < nbr_philo)
+    while (i < nbr_of_philo)
     {
-        philo[i].id_piho = i + 1;
-        philo[i].morte = atoi(av[2]);
-        philo[i].comer = atoi(av[3]);
-        philo[i].dormir = atoi(av[4]);
-        philo[i].esquerdo = &forks[i];
-        philo[i].direito = &forks[(i + 1) % nbr_philo];
-        philo[i].curr_time = set_time();
-        if (pthread_create(&th[i], NULL, &funtion, &philo[i]) != 0 )
+        philo[i].id_philo = i + 1;
+        philo[i].time_to_die = time_to_die;
+        philo[i].time_to_eat = time_to_eat;
+        philo[i].time_to_sleep = time_to_sleep;
+        philo[i].fork_l = &forks[i];
+        philo[i].fork_r = &forks[(i + 1) % nbr_of_philo];
+        philo[i].curr_time = ft_set_time();
+        if (pthread_create(&philo[i].thread_nbr, NULL, &ft_routine, &philo[i]) != 0 )
             perror("failed create philo");
         i++;
     }
     i = 0;
-    while (i < nbr_philo)
+    while (i < nbr_of_philo)
     {
-        pthread_join(th[i], NULL);
+        pthread_join(philo[i].thread_nbr, NULL);
         i++;
     }
-    while (i < nbr_philo)
+    while (i < nbr_of_philo)
     {
         pthread_mutex_destroy(&forks[i]);
         i++;
     }
     i = 0;
     free(philo);
-    free(th);
     free(forks);
+}
+
+int main(int argc, char **argv)
+{
+    t_monitor vars;
+
+    if ((argc == 5) || (argc == 6))
+    {
+        if (ft_atoi(argv[5]) >= 1)
+        {
+            init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]));
+            vars.number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+        }
+        else
+            init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]));
+    }
+    else if (argc < 6)
+    {
+        printf("To few arguments\n");        
+    }
+    else
+        printf("To Many arguments\n"); 
     return 0;
 }
