@@ -6,7 +6,7 @@
 #    By: gkomba <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 15:51:45 by gkomba            #+#    #+#              #
-#    Updated: 2024/09/04 17:58:11 by gkomba           ###   ########.fr        #
+#    Updated: 2024/09/05 13:54:09 by gkomba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ all: ${NAME}
 
 ${NAME}: ${OBJS}
 	make -C ${LIBFT}
-	${CC} ${CFLGS} -o ${NAME} ${OBJS} ${LIBFT}/libft.a
+	${CC} ${CFLGS} ${DTRCF} -o ${NAME} ${OBJS} ${LIBFT}/libft.a
 
 clean:
 	make clean -C ${LIBFT}

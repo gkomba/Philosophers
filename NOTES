@@ -13,5 +13,3 @@ Além disso, qualquer thread pode ler e escrever na mesma memória virtual, o qu
 Uma das maiores qualidades dos threads é que todos eles compartilham a memória de seus processos. Cada thread tem sua própria pilha, mas os outros threads podem facilmente obter acesso a ela com um simples ponteiro. Além do mais, o heap e quaisquer descritores de arquivo abertos são totalmente compartilhados entre os threads.
 
 Essa memória compartilhada e a facilidade com que um thread pode acessar a memória de outro thread claramente também têm sua parcela de perigo: podem causar erros de sincronização desagradáveis.
-
-

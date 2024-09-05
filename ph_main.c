@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:15:51 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/04 17:03:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/05 15:28:59 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,28 +31,51 @@ void    *ft_routine(void *arg)
     int     stop;
 
     philo = (t_philo *)arg;
-    philo->dead = 0;
-    while(philo->time_to_eat)
+    if (philo->number_of_times_each_philosopher_must_eat == 0)
+    {
+        philo->number_of_times_each_philosopher_must_eat = 1;
+        stop = 0;
+    }
+    while(philo->number_of_times_each_philosopher_must_eat)
     {
         printf("[%lld] O %d filosofo esta pensando\n", ft_time_diff(philo->curr_time), philo->id_philo);
-        usleep(philo->time_to_eat * 1000);
-        pthread_mutex_lock(philo->fork_l);
-        printf("[%lld] O %d filosofo pegou o garfo esquerdo\n", ft_time_diff(philo->curr_time), philo->id_philo);
-        pthread_mutex_lock(philo->fork_r);
-        printf("[%lld] O %d filosofo pegou o garfo direito\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        if (philo->id_philo % 2 == 0)
+        {
+            pthread_mutex_lock(philo->fork_r);
+            printf("[%lld] O %d filosofo pegou o garfo direito\n", ft_time_diff(philo->curr_time), philo->id_philo);
+            pthread_mutex_lock(philo->fork_l);
+            printf("[%lld] O %d filosofo pegou o garfo esquerdo\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        }
+        else
+        {
+            pthread_mutex_lock(philo->fork_l);
+            printf("[%lld] O %d filosofo pegou o garfo direito\n", ft_time_diff(philo->curr_time), philo->id_philo);
+            pthread_mutex_lock(philo->fork_r);
+            printf("[%lld] O %d filosofo pegou o garfo esquerdo\n", ft_time_diff(philo->curr_time), philo->id_philo);
+        }
         printf("[%lld] O %d filosofo esta comendo\n", ft_time_diff(philo->curr_time), philo->id_philo);
-        philo->times_eaten++;
         usleep(philo->time_to_eat * 1000);
+        philo->times_eaten++;
+        philo->last_time_ate = philo->curr_time;
         pthread_mutex_unlock(philo->fork_l);
         pthread_mutex_unlock(philo->fork_r);
+        if ((philo->curr_time - philo->last_time_ate) >= philo->time_to_die)
+        {
+            printf("die %d\n", philo->time_to_die);
+            printf("last %ld\n", philo->last_time_ate);
+            printf("[%lld] O %d filosofo morreu\n", ft_time_diff(philo->curr_time), philo->id_philo);
+            return NULL;
+        }
         printf("[%lld] O %d filosofo esta dormindo\n", ft_time_diff(philo->curr_time), philo->id_philo);
         usleep(philo->time_to_sleep * 1000);
-        philo->time_to_eat--;
+        if (stop != 0)
+            philo->number_of_times_each_philosopher_must_eat--;
     }
+    printf("philo nbr [%d] ete %d times\n", philo->id_philo, philo->times_eaten);
     return NULL;
 }
 
-int    init_philo(int nbr_of_philo, size_t time_to_die, size_t time_to_eat, size_t time_to_sleep)
+int    init_philo(int nbr_of_philo, size_t time_to_die, size_t time_to_eat, size_t time_to_sleep, int must_eat)
 {
     t_philo *philo;
     pthread_mutex_t *forks;
@@ -76,6 +99,7 @@ int    init_philo(int nbr_of_philo, size_t time_to_die, size_t time_to_eat, size
         philo[i].fork_l = &forks[i];
         philo[i].fork_r = &forks[(i + 1) % nbr_of_philo];
         philo[i].curr_time = ft_set_time();
+        philo[i].number_of_times_each_philosopher_must_eat = must_eat;
         if (pthread_create(&philo[i].thread_nbr, NULL, &ft_routine, &philo[i]) != 0 )
             perror("failed create philo");
         i++;
@@ -98,17 +122,16 @@ int    init_philo(int nbr_of_philo, size_t time_to_die, size_t time_to_eat, size
 
 int main(int argc, char **argv)
 {
-    t_monitor vars;
+    t_philo vars;
 
     if ((argc == 5) || (argc == 6))
     {
-        if (ft_atoi(argv[5]) >= 1)
+        if (argv[5] && ft_atoi(argv[5]) >= 1)
         {
-            init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]));
-            vars.number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+            init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), ft_atoi(argv[5]));
         }
         else
-            init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]));
+            init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), 0);
     }
     else if (argc < 6)
     {
