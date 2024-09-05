@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:15:51 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/05 16:55:09 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/05 19:21:53 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,114 +25,163 @@ size_t	ft_time_diff(size_t start_time)
 	return(ft_set_time() - start_time);
 }
 
+void	ft_vefify_if_died(t_philo *philo)
+{
+	if ((philo->curr_time - philo->last_time_ate) 
+			>= philo->time_to_die)
+	{
+		printf("die %ld\n", philo->time_to_die);
+		printf("last %ld\n", philo->last_time_ate);
+		printf("[%ld] O %d filosofo morreu\n", 
+				ft_time_diff(philo->curr_time),
+				philo->id_philo);
+		return ;
+	}
+}
+
+void	ft_get_fork(t_philo *philo)
+{
+	if (philo->id_philo % 2 == 0)
+	{
+		pthread_mutex_lock(philo->fork_r);
+		printf("[%ld] O %d filosofo pegou o garfo direito\n", 
+				ft_time_diff(philo->curr_time),
+				philo->id_philo);
+		pthread_mutex_lock(philo->fork_l);
+		printf("[%ld] O %d filosofo pegou o garfo esquerdo\n", 
+				ft_time_diff(philo->curr_time),
+				philo->id_philo);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->fork_l);
+		printf("[%ld] O %d filosofo pegou o garfo direito\n", 
+				ft_time_diff(philo->curr_time),
+				philo->id_philo);
+		pthread_mutex_lock(philo->fork_r);
+		printf("[%ld] O %d filosofo pegou o garfo esquerdo\n", 
+				ft_time_diff(philo->curr_time),
+				philo->id_philo);
+	}
+}
+
+void	ft_philo_eat_and_sleep(t_philo *philo)
+{
+	ft_get_fork(philo);
+	printf("[%ld] O %d filosofo esta comendo\n", 
+			ft_time_diff(philo->curr_time),
+			philo->id_philo);
+	philo->times_eaten++;
+	philo->last_time_ate = philo->curr_time;
+	usleep(philo->time_to_eat * 1000);	
+	pthread_mutex_unlock(philo->fork_l);
+	pthread_mutex_unlock(philo->fork_r);
+	printf("[%ld] O %d filosofo esta dormindo\n", 
+			ft_time_diff(philo->curr_time),
+			philo->id_philo);
+	usleep(philo->time_to_sleep * 1000);
+}
+
 void	*ft_routine(void *arg)
 {
 	t_philo	*philo;
 	int	stop;
 
 	philo = (t_philo *)arg;
-	if (philo->inumber_of_times_each_philosopher_must_eat == 0)
+	if (philo->must_eat == 0)
 	{
-		philo->number_of_times_each_philosopher_must_eat = 1;
+		philo->must_eat = 1;
 		stop = 0;
 	}
-	while(philo->number_of_times_each_philosopher_must_eat)
-	{	
-		printf("[%ld] O %d filosofo esta pensando\n", ft_time_diff(philo->curr_time), philo->id_philo);
-		if (philo->id_philo % 2 == 0)
-		{
-			pthread_mutex_lock(philo->fork_r);
-			printf("[%ld] O %d filosofo pegou o garfo direito\n", ft_time_diff(philo->curr_time), philo->id_philo);
-			pthread_mutex_lock(philo->fork_l);
-			printf("[%ld] O %d filosofo pegou o garfo esquerdo\n", ft_time_diff(philo->curr_time), philo->id_philo);
-		}
-		else
-		{
-			pthread_mutex_lock(philo->fork_l);
-			printf("[%ld] O %d filosofo pegou o garfo direito\n", ft_time_diff(philo->curr_time), philo->id_philo);
-			pthread_mutex_lock(philo->fork_r);
-			printf("[%ld] O %d filosofo pegou o garfo esquerdo\n", ft_time_diff(philo->curr_time), philo->id_philo);
-		}
-		printf("[%ld] O %d filosofo esta comendo\n", ft_time_diff(philo->curr_time), philo->id_philo);
-		philo->times_eaten++;
-		philo->last_time_ate = philo->curr_time;
-		usleep(philo->time_to_eat * 1000);
-		if ((philo->curr_time - philo->last_time_ate) >= philo->time_to_die)
-		{
-			printf("die %ld\n", philo->time_to_die);
-			printf("last %ld\n", philo->last_time_ate);
-			printf("[%ld] O %d filosofo morreu\n", ft_time_diff(philo->curr_time), philo->id_philo);
-			return NULL;
-		}
-		pthread_mutex_unlock(philo->fork_l);
-		pthread_mutex_unlock(philo->fork_r);
-		printf("[%ld] O %d filosofo esta dormindo\n", ft_time_diff(philo->curr_time), philo->id_philo);
-		usleep(philo->time_to_sleep * 1000);
+	while(philo->must_eat)
+	{
+		ft_philo_eat_and_sleep(philo);
+		printf("[%ld] O %d filosofo esta pensando\n", 
+				ft_time_diff(philo->curr_time),
+				philo->id_philo);
 		if (stop != 0)
-			philo->number_of_times_each_philosopher_must_eat--;
+			philo->must_eat--;
 	}
-	printf("philo nbr [%d] ete %d times\n", philo->id_philo, philo->times_eaten);
+	printf("philo nbr [%d] ete %d times\n", 
+			philo->id_philo, philo->times_eaten);
 	return NULL;
 }
 
-int	init_philo(int nbr_of_philo, size_t time_to_die, size_t time_to_eat, size_t time_to_sleep, int must_eat)
+void	ft_create_philo(int nbr_of_philo, t_philo *philo,
+		pthread_mutex_t *forks)
 {
-	t_philo		*philo;
-	pthread_mutex_t *forks;
-	int		i;
+	int	i;
 
-	philo = (t_philo *)malloc(sizeof(t_philo) * nbr_of_philo);
-	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * nbr_of_philo);
-	i = 0;
-	while (i < nbr_of_philo)
-	{
-		pthread_mutex_init(&forks[i], NULL);
-		i++;
-	}
 	i = 0;
 	while (i < nbr_of_philo)
 	{
 		philo[i].id_philo = i + 1;
-		philo[i].time_to_die = time_to_die;
-		philo[i].time_to_eat = time_to_eat;
-		philo[i].time_to_sleep = time_to_sleep;
 		philo[i].fork_l = &forks[i];
 		philo[i].fork_r = &forks[(i + 1) % nbr_of_philo];
 		philo[i].curr_time = ft_set_time();
-		philo[i].number_of_times_each_philosopher_must_eat = must_eat;
-		if (pthread_create(&philo[i].thread_nbr, NULL, &ft_routine, &philo[i]) != 0 )
+		if (pthread_create(&philo[i].thread_nbr, NULL, 
+					&ft_routine, &philo[i]) != 0)
 			perror("failed create philo");
 		i++;
 	}
+}
+
+int	ft_init_philo(t_philo *philo)
+{
+	pthread_mutex_t *forks;
+	int		i;
+
+	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 
+			philo->nbr_of_philo);
 	i = 0;
-	while (i < nbr_of_philo)
+	while (i < philo->nbr_of_philo)
 	{
-		pthread_join(philo[i].thread_nbr, NULL);
+		pthread_mutex_init(&forks[i], NULL);
 		i++;
 	}
-	while (i < nbr_of_philo)
+	ft_create_philo(philo->nbr_of_philo, philo, forks);
+	i = 0;
+	if (philo->nbr_of_philo == 1)
+		pthread_join(philo[i].thread_nbr, NULL);
+	else
+	{
+		i = 0;
+		while (i < philo->nbr_of_philo)
+		{
+			pthread_join(philo[i].thread_nbr, NULL);
+			i++;
+		}
+	}
+	i = 0;
+	while (i < philo->nbr_of_philo)
 	{
 		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
-	i = 0;
 	free(philo);
 	free(forks);
 }
 
+void	ft_init_params(char **argv)
+{
+	t_philo	*philo;
+
+	philo->nbr_of_philo = ft_atoi(argv[1]);
+	philo = (t_philo *)malloc(sizeof(t_philo) * philo->nbr_of_philo);
+	philo->time_to_die = ft_atoi(argv[2]);
+	philo->time_to_eat = ft_atoi(argv[3]);
+	philo->time_to_sleep = ft_atoi(argv[4]);
+	if (argv[5])
+		philo->must_eat = ft_atoi(argv[5]);
+	else
+		philo->must_eat = 0;
+	ft_init_philo(philo);
+}
+
 int	main(int argc, char **argv)
 {
-	t_philo vars;
-
 	if ((argc == 5) || (argc == 6))
-	{
-		if (argv[5] && ft_atoi(argv[5]) >= 1)
-		{
-			init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), ft_atoi(argv[5]));
-		}
-		else
-			init_philo(ft_atoi(argv[1]), ft_atoi(argv[2]), ft_atoi(argv[3]), ft_atoi(argv[4]), 0);
-	}
+		ft_init_params(argv);
 	else if (argc < 6)
 	{
 		printf("To few arguments\n");        
