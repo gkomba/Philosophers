@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:18:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/06 13:08:40 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/06 13:44:29 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int	ft_atoi(const char *nptr)
 
 size_t	ft_set_time(void)
 {
-	struct	timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-} 
+}
 
 size_t	ft_time_diff(size_t start_time)
 {
-	return(ft_set_time() - start_time);
+	return (ft_set_time() - start_time);
 }

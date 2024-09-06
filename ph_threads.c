@@ -6,13 +6,14 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:52:55 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/06 12:55:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/06 13:41:19 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_create_philo(t_philo *philo, pthread_mutex_t *forks, t_params *params)
+void	ft_create_philo(t_philo *philo, pthread_mutex_t *forks,
+		t_params *params)
 {
 	int	i;
 

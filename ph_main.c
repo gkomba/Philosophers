@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:15:51 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/06 13:04:05 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/06 13:26:11 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	*ft_routine(void *arg)
 {
-	t_philo	*philo;
-	int	stop;
+	int				stop;
+	t_philo			*philo;
 
 	philo = (t_philo *)arg;
 	if (philo->must_eat == 0)
@@ -23,14 +23,15 @@ void	*ft_routine(void *arg)
 		philo->must_eat = 1;
 		stop = 0;
 	}
-	while(philo->must_eat)
+	while (philo->must_eat)
 	{
 		ft_philo_eat_and_sleep(philo);
-		printf("[%ld] O %d filosofo esta pensando\n", ft_time_diff(philo->curr_time), philo->id_philo);
+		printf("[%ld] O %d filosofo esta pensando\n",
+			ft_time_diff(philo->curr_time), philo->id_philo);
 		if (stop != 0)
 			philo->must_eat--;
 	}
-	printf("philo nbr [%d] ete %d times\n", 
+	printf("philo nbr [%d] ete %d times\n",
 		philo->id_philo, philo->times_eaten);
 	return (NULL);
 }
@@ -49,11 +50,12 @@ void	ft_create_forks(pthread_mutex_t	*forks, t_params *params)
 
 int	ft_init_philo(t_params *params)
 {
-	t_philo	*philo;
-	pthread_mutex_t *forks;
+	t_philo					*philo;
+	pthread_mutex_t			*forks;
 
 	philo = (t_philo *)malloc(sizeof(t_philo) * params->nbr_of_philo);
-	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * params->nbr_of_philo);
+	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* params->nbr_of_philo);
 	ft_init_mutexes(forks, params);
 	ft_create_philo(philo, forks, params);
 	ft_join_philo(philo, params);
