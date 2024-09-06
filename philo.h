@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/06 12:19:43 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/06 13:10:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <unistd.h>
 #include <pthread.h> 
 #include <sys/time.h>
-#include "libft/libft.h"
 
 typedef struct	s_philo
 {
@@ -47,5 +46,13 @@ typedef struct	s_params
 
 void	ft_putstr_fd(char *s, int fd);
 int	ft_atoi(const char *nptr);
-
+void	ft_create_philo(t_philo *philo, pthread_mutex_t *forks, t_params *params);
+void	ft_join_philo(t_philo *philo, t_params *params);
+void	ft_destroy_mutexes(pthread_mutex_t *forks, t_params *params);
+void	ft_init_mutexes(pthread_mutex_t	*forks, t_params *params);
+size_t	ft_set_time(void);
+size_t	ft_time_diff(size_t start_time);
+void	ft_get_fork(t_philo *philo);
+void	ft_philo_eat_and_sleep(t_philo *philo);
+void	*ft_routine(void *arg);
 #endif

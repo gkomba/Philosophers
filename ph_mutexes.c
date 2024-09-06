@@ -1,46 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ph_mutexes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/06 12:18:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/06 12:18:48 by gkomba           ###   ########.fr       */
+/*   Created: 2024/09/06 12:56:04 by gkomba            #+#    #+#             */
+/*   Updated: 2024/09/06 12:59:34 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_destroy_mutexes(pthread_mutex_t *forks, t_params *params)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (i < params->nbr_of_philo)
 	{
-		write(fd, &s[i], 1);
+		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
 }
 
-int	ft_atoi(const char *nptr)
+void	ft_init_mutexes(pthread_mutex_t	*forks, t_params *params)
 {
-	int	sign;
-	int	resul;
+	int	i;
 
-	sign = 1;
-	resul = 0;
-	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
-		nptr++;
-	if (*nptr == '-')
-		sign *= -1;
-	if (*nptr == '-' || *nptr == '+')
-		nptr++;
-	while (*nptr >= 48 && *nptr <= 57)
+	i = 0;
+	while (i < params->nbr_of_philo)
 	{
-		resul = resul * 10 + *nptr - '0';
-		nptr++;
+		pthread_mutex_init(&forks[i], NULL);
+		i++;
 	}
-	return (resul * sign);
 }
