@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/05 19:09:58 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/06 12:19:43 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct	s_philo
 	pthread_mutex_t		*fork_r;
 	pthread_mutex_t		*fork_l;
 	pthread_t		thread_nbr;
-	int			nbr_of_philo;
 	int			id_philo;
 	int			times_eaten;
 	int			*dead;
@@ -36,5 +35,17 @@ typedef struct	s_philo
 	size_t			time_to_sleep;
 	size_t			curr_time;
 }				t_philo;
+
+typedef struct	s_params
+{
+	int	nbr_of_philo;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	must_eat;
+}		t_params;
+
+void	ft_putstr_fd(char *s, int fd);
+int	ft_atoi(const char *nptr);
 
 #endif

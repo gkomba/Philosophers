@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:15:51 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/05 19:21:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/06 12:27:10 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,75 +107,107 @@ void	*ft_routine(void *arg)
 	return NULL;
 }
 
-void	ft_create_philo(int nbr_of_philo, t_philo *philo,
-		pthread_mutex_t *forks)
+void	ft_create_philo(t_philo *philo,
+		pthread_mutex_t *forks, t_params *params)
 {
 	int	i;
 
 	i = 0;
-	while (i < nbr_of_philo)
+	while (i < params->nbr_of_philo)
 	{
 		philo[i].id_philo = i + 1;
+		philo[i].time_to_die = params->time_to_die;
+		philo[i].time_to_eat = params->time_to_eat;
+		philo[i].time_to_sleep = params->time_to_sleep;
 		philo[i].fork_l = &forks[i];
-		philo[i].fork_r = &forks[(i + 1) % nbr_of_philo];
+		philo[i].fork_r = &forks[(i + 1) % params->nbr_of_philo];
 		philo[i].curr_time = ft_set_time();
-		if (pthread_create(&philo[i].thread_nbr, NULL, 
-					&ft_routine, &philo[i]) != 0)
-			perror("failed create philo");
+		philo[i].must_eat = params->must_eat;
+		if (pthread_create(&philo[i].thread_nbr, NULL,
+					&ft_routine, &philo[i]) != 0 )
+			ft_putstr_fd("failed create philo", 2);
 		i++;
 	}
 }
 
-int	ft_init_philo(t_philo *philo)
+void	ft_join_philo(t_philo *philo, t_params *params)
 {
-	pthread_mutex_t *forks;
-	int		i;
+	int	i;
 
-	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 
-			philo->nbr_of_philo);
 	i = 0;
-	while (i < philo->nbr_of_philo)
+	while (i < params->nbr_of_philo)
+	{
+		if (pthread_join(philo[i].thread_nbr, NULL) != 0)
+			ft_putstr_fd("failed to join thread", 2);
+		i++;
+	}
+}
+
+void	ft_create_forks(pthread_mutex_t	*forks, t_params *params)
+{
+	int	i;
+
+	i = 0;
+	while (i < params->nbr_of_philo)
 	{
 		pthread_mutex_init(&forks[i], NULL);
 		i++;
 	}
-	ft_create_philo(philo->nbr_of_philo, philo, forks);
+}
+
+void	ft_destroy_mutexes(pthread_mutex_t *forks, t_params *params)
+{
+	int	i;
+
 	i = 0;
-	if (philo->nbr_of_philo == 1)
-		pthread_join(philo[i].thread_nbr, NULL);
-	else
-	{
-		i = 0;
-		while (i < philo->nbr_of_philo)
-		{
-			pthread_join(philo[i].thread_nbr, NULL);
-			i++;
-		}
-	}
-	i = 0;
-	while (i < philo->nbr_of_philo)
+	while (i < params->nbr_of_philo)
 	{
 		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
+}
+
+void	ft_init_mutexes(pthread_mutex_t	*forks, t_params *params)
+{
+	int	i;
+
+	i = 0;
+	while (i < params->nbr_of_philo)
+	{
+		pthread_mutex_init(&forks[i], NULL);
+		i++;
+	}
+}
+
+int	ft_init_philo(t_params *params)
+{
+	t_philo	*philo;
+	pthread_mutex_t *forks;
+
+	philo = (t_philo *)malloc(sizeof(t_philo) * params->nbr_of_philo);
+	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 
+			params->nbr_of_philo);
+	ft_init_mutexes(forks, params);
+	ft_create_philo(philo, forks, params);
+	ft_join_philo(philo, params);
+	ft_destroy_mutexes(forks, params);
 	free(philo);
 	free(forks);
 }
 
 void	ft_init_params(char **argv)
 {
-	t_philo	*philo;
+	t_params	params;
 
-	philo->nbr_of_philo = ft_atoi(argv[1]);
-	philo = (t_philo *)malloc(sizeof(t_philo) * philo->nbr_of_philo);
-	philo->time_to_die = ft_atoi(argv[2]);
-	philo->time_to_eat = ft_atoi(argv[3]);
-	philo->time_to_sleep = ft_atoi(argv[4]);
+	params.nbr_of_philo = ft_atoi(argv[1]);
+	params.time_to_die = ft_atoi(argv[2]);
+	params.time_to_eat = ft_atoi(argv[3]);
+	params.time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
-		philo->must_eat = ft_atoi(argv[5]);
+		params.must_eat = ft_atoi(argv[5]);
 	else
-		philo->must_eat = 0;
-	ft_init_philo(philo);
+		params.must_eat = 0;
+	ft_init_philo(&params);
 }
 
 int	main(int argc, char **argv)
