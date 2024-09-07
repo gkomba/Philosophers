@@ -12,25 +12,37 @@
 
 #include "philo.h"
 
+void	ft_print_message(char fork, t_philo *philo)
+{
+	if (pthread_mutex_lock(philo->message) == 0)
+	{
+		if (fork == 'r')
+			printf("[%ld] O %d filosofo pegou o garfo direito\n",
+				ft_time_diff(philo->curr_time), philo->id_philo);
+		else if (fork == 'l')
+			printf("[%ld] O %d filosofo pegou o garfo esquerdo\n",
+				ft_time_diff(philo->curr_time), philo->id_philo);
+		pthread_mutex_unlock(philo->message);
+	}
+	else
+		return ;
+}
+
 void	ft_get_fork(t_philo *philo)
 {
 	if (philo->id_philo % 2 == 0)
 	{
 		pthread_mutex_lock(philo->fork_r);
-		printf("[%ld] O %d filosofo pegou o garfo direito\n",
-			ft_time_diff(philo->curr_time), philo->id_philo);
+		ft_print_message('r', philo);
 		pthread_mutex_lock(philo->fork_l);
-		printf("[%ld] O %d filosofo pegou o garfo esquerdo\n",
-			ft_time_diff(philo->curr_time), philo->id_philo);
+		ft_print_message('l', philo);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->fork_l);
-		printf("[%ld] O %d filosofo pegou o garfo direito\n",
-			ft_time_diff(philo->curr_time), philo->id_philo);
+		ft_print_message('l', philo);
 		pthread_mutex_lock(philo->fork_r);
-		printf("[%ld] O %d filosofo pegou o garfo esquerdo\n",
-			ft_time_diff(philo->curr_time), philo->id_philo);
+		ft_print_message('r', philo);
 	}
 }
 
