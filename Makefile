@@ -30,7 +30,7 @@ RM = rm -f
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${CFLGS} ${DTRCF} -o ${NAME} ${OBJS}
+	${CC} ${CFLGS} -o ${NAME} ${OBJS}
 
 clean:
 	${RM} ${OBJS}

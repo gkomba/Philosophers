@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:56:04 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 04:52:47 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/08 09:24:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	ft_destroy_mutexes(pthread_mutex_t *forks, int nbr_of_philo,
 
 void	ft_destroy_monitor(t_monitor *monitor)
 {
-	pthread_mutex_destroy(&monitor->monitor_mutex);
 	pthread_mutex_destroy(&monitor->check_dead);
 	pthread_mutex_destroy(&monitor->check_last_meal);
 	pthread_mutex_destroy(&monitor->times_eat);

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:35:11 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 04:57:58 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/08 08:55:06 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ void	ft_inform_last_snack(t_philo *philo, size_t value)
 void	ft_inform_time_ate(t_philo *philo, int value)
 {
 	pthread_mutex_lock(philo->times_ate_mutex);
-	philo->times_ate = value;
+	philo->times_ate += value;
 	pthread_mutex_unlock(philo->times_ate_mutex);
 }
