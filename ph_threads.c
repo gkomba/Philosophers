@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:52:55 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 09:41:11 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/08 10:24:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		ft_create_and_join_philo(t_philo *philo, int nbr_of_philo)
+int	ft_create_and_join_philo(t_philo *philo, int nbr_of_philo)
 {
 	int	i;
 
@@ -20,7 +20,7 @@ int		ft_create_and_join_philo(t_philo *philo, int nbr_of_philo)
 	while (i < nbr_of_philo)
 	{
 		if (pthread_create(&philo[i].thread_nbr, NULL, &ft_routine,
-		&philo[i]) != 0)
+				&philo[i]) != 0)
 			return (ft_putstr_fd("failed create philo", 2), 1);
 		i++;
 	}

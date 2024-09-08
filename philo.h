@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 09:44:39 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/08 10:26:00 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,45 +55,29 @@ typedef struct s_philo
 	pthread_t			thread_nbr;
 }				t_philo;
 
-//ph_main
 void	*ft_routine(void *arg);
 void	*ft_monitor(void *arg);
-
-//ph_utils
 void	ft_putstr_fd(char *s, int fd);
-size_t	ft_set_time(void);
-size_t	ft_time_diff(size_t start_time);
-int		ft_atoi(const char *nptr);
-
-//ph_destroy
-void		ft_destroy_monitor(t_monitor *monitor);
-void		ft_destroy_mutexes(pthread_mutex_t *forks, int nbr_of_philo,
-		pthread_mutex_t *message_mutex);
-
-//ph_threads
-int		ft_create_and_join_philo(t_philo *philo, int nbr_of_philo);
-
-//ph_actions
+void	ft_destroy_monitor(t_monitor *monitor);
+void	ft_destroy_mutexes(pthread_mutex_t *forks, int nbr_of_philo,
+			pthread_mutex_t *message_mutex);
 void	ft_philo_eat_and_sleep(t_philo *philo);
 void	ft_print_message(char *fork, t_philo *philo);
-
-//ph_init
-int		ft_init_monitor_mutexes(t_monitor *monitor);
-int		ft_init_mutexes(pthread_mutex_t	*forks, int nbr_of_philo,
-		pthread_mutex_t *message_mutex);
-int		ft_init_monitor(int argc, char **argv, t_monitor *monitor);
 void	ft_init_philos(t_monitor *monitor, t_philo *philo,
-		pthread_mutex_t *forks, pthread_mutex_t *message_mutex);
-
-
-//ph_inform
+			pthread_mutex_t *forks, pthread_mutex_t *message_mutex);
 void	ft_inform_is_dead(t_monitor *monitor, size_t value);
 void	ft_inform_last_snack(t_philo *philo, size_t value);
 void	ft_inform_time_ate(t_philo *philo, int value);
-
-//ph_check
+size_t	ft_time_diff(size_t start_time);
+size_t	ft_set_time(void);
+size_t	ft_check_last_time_ate(t_philo *philo);
+int		ft_create_and_join_philo(t_philo *philo, int nbr_of_philo);
+int		ft_init_monitor(int argc, char **argv, t_monitor *monitor);
+int		ft_init_mutexes(pthread_mutex_t	*forks, int nbr_of_philo,
+			pthread_mutex_t *message_mutex);
+int		ft_init_monitor_mutexes(t_monitor *monitor);
+int		ft_atoi(const char *nptr);
 int		ft_check_dead(t_monitor *monitor);
-size_t		ft_check_last_time_ate(t_philo *philo);
 int		ft_check_times_ate(t_philo *philo);
 
 #endif

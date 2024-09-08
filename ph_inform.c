@@ -16,7 +16,7 @@ void	ft_inform_is_dead(t_monitor *monitor, size_t value)
 {
 	pthread_mutex_lock(&monitor->check_dead);
 	monitor->check_if_dead = value;
-	pthread_mutex_unlock(&monitor->check_dead);		
+	pthread_mutex_unlock(&monitor->check_dead);
 }
 
 void	ft_inform_last_snack(t_philo *philo, size_t value)
