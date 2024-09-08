@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/07 16:38:31 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/08 04:57:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,29 @@
 # include <pthread.h> 
 # include <sys/time.h>
 
+typedef struct s_monitor
+{
+	pthread_mutex_t		monitor_mutex;
+	pthread_mutex_t		check_dead;
+	pthread_mutex_t		check_last_meal;
+	pthread_mutex_t		times_eat;	
+	int					is_dead;
+	int					check_if_dead;
+	int					nbr_of_philo;
+	int					must_eat;
+	size_t				time_to_die;
+	size_t				time_to_eat;
+	size_t				time_to_sleep;
+	size_t				curr_time;
+}		t_monitor;
+
 typedef struct s_philo
 {
 	pthread_mutex_t		*fork_r;
 	pthread_mutex_t		*message;
 	pthread_mutex_t		*check_dead;
 	pthread_mutex_t		*check_last_meal;
+	pthread_mutex_t		*times_ate_mutex;
 	pthread_mutex_t		*fork_l;
 	size_t				last_time_ate;
 	size_t				time_to_die;
@@ -35,37 +52,51 @@ typedef struct s_philo
 	int					id_philo;
 	int					times_ate;
 	int					*dead;
-	int				nbr_of_philo;
+	int					nbr_of_philo;
 	int					must_eat;
+	t_monitor			*monitor;
 	pthread_t			thread_nbr;
 }				t_philo;
 
-typedef struct s_monitor
-{
-	pthread_mutex_t		*monitor_mutex;
-	pthread_mutex_t		*check_dead;
-	pthread_mutex_t		*check_last_meal;
-	int				is_dead;
-	int				check_if_dead;
-	int				nbr_of_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				must_eat;
-	t_philo				*philo;
-}		t_monitor;
-
-void	*ft_monitor(void *arg);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_create_philo(t_philo *philo,
-			pthread_mutex_t *forks, t_params *params);
-void	ft_join_philo(t_philo *philo, t_params *params);
-void	ft_destroy_mutexes(pthread_mutex_t *forks, t_params *params);
-void	ft_init_mutexes(pthread_mutex_t	*forks, t_params *params);
-void	ft_get_fork(t_philo *philo);
-void	ft_philo_eat_and_sleep(t_philo *philo);
+//ph_main
 void	*ft_routine(void *arg);
+void	*ft_monitor(void *arg);
+
+//ph_utils
+void	ft_putstr_fd(char *s, int fd);
 size_t	ft_set_time(void);
 size_t	ft_time_diff(size_t start_time);
 int		ft_atoi(const char *nptr);
+
+//ph_destroy
+void	ft_destroy_monitor(t_monitor *monitor);
+void	ft_destroy_mutexes(pthread_mutex_t *forks, int nbr_of_philo,
+		pthread_mutex_t *message_mutex);
+
+//ph_threads
+void	ft_join_philo(t_philo *philo, int nbr_of_philo);
+
+//ph_actions
+void	ft_philo_eat_and_sleep(t_philo *philo);
+void	ft_print_message(char *fork, t_philo *philo);
+
+//ph_init
+void	ft_init_monitor_mutexes(t_monitor *monitor);
+void	ft_init_mutexes(pthread_mutex_t	*forks, int nbr_of_philo,
+		pthread_mutex_t *message_mutex);
+void	ft_init_monitor(int argc, char **argv, t_monitor *monitor);
+void	ft_init_philos(t_monitor *monitor, t_philo *philo,
+		pthread_mutex_t *forks, pthread_mutex_t *message_mutex);
+
+
+//ph_inform
+void	ft_inform_is_dead(t_monitor *monitor, size_t value);
+void	ft_inform_last_snack(t_philo *philo, size_t value);
+void	ft_inform_time_ate(t_philo *philo, int value);
+
+//ph_check
+int		ft_check_dead(t_monitor *monitor);
+size_t		ft_check_last_time_ate(t_philo *philo);
+int		ft_check_times_ate(t_philo *philo);
+
 #endif

@@ -6,111 +6,59 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:36:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/06 13:03:19 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/08 04:43:04 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/*void	*ft_monitor(void *arg)
+int	ft_all_philos_have_ate(t_philo *philo, t_monitor *monitor)
 {
-	t_philo		*philos;
 	int		i;
 
-	philos = (t_philo *)arg;
-	while (1)
+	i = 0;
+	while (i < monitor->nbr_of_philo)
 	{
-		i = 0;
-		while (i < philos[0].nbr_of_philo)
-		{
-			pthread_mutex_lock(philos[i].check_last_meal);
-			if (ft_time_diff(philos[i].last_time_ate) >
-					philos[i].time_to_die)
-			{
-				printf("[%ld] O %d filosofo MORREU\n",
-					ft_time_diff(philos[i].curr_time),
-					philos[i].id_philo);
-				*(philos[i].dead) = 1;
-				pthread_mutex_unlock(philos[i].check_last_meal);
-				return (NULL);
-			}
-			pthread_mutex_unlock(philos[i].check_last_meal);
-			i++;
-		}
-		usleep(1000);
+		if (ft_check_times_ate(philo) < monitor->must_eat)
+			return (0);
+		i++;
 	}
-	return (NULL);
-}*/
+	if (monitor->must_eat)
+	{
+		pthread_mutex_lock(&monitor->monitor_mutex);
+		printf("ALL PHILOS HAVE TAKE THE FOOD\n");
+		pthread_mutex_unlock(&monitor->monitor_mutex);
+		return (1);
+	}
+	return (0);
+}
 
 void	*ft_monitor(void *arg)
 {
-	t_philo		*philos;
-	int			i;
+	int		i;
+	t_monitor	*monitor;
+	t_philo		*philo;
 
-	philos = (t_philo *)arg;
-	while (1)
+	philo = (t_philo *)arg;
+	monitor = philo[0].monitor;
+	while (!ft_check_dead(monitor))
 	{
-		i = 0;
-		while (i < philos[0].nbr_of_philo)
+		i = -1;
+		while (++i < monitor->nbr_of_philo)
 		{
-			pthread_mutex_lock(philos[i].check_last_meal);
-			if (ft_set_time() - philos[i].last_time_ate
-				>= philos[i].time_to_die / 2)
+			if (ft_set_time() - ft_check_last_time_ate(&philo[i])  > monitor->time_to_die)
 			{
-				printf("[%ld] O %d filosofo MORREU\n",
-					ft_time_diff(philos[i].curr_time),
-					philos[i].id_philo);
-				*(philos[i].dead) = 1;
-				pthread_mutex_unlock(philos[i].check_last_meal);
-				return (NULL);
+				ft_print_message("Filosofo Esta Morto", &philo[i]);
+				ft_inform_is_dead(monitor, 1);
+				break ;
 			}
-			pthread_mutex_unlock(philos[i].check_last_meal);
-			i++;
+		}
+		if (ft_all_philos_have_ate(philo, monitor))
+		{
+			ft_inform_is_dead(monitor, 1);
+			break ;
 		}
 		usleep(1000);
 	}
 	return (NULL);
 }
-
-/*void	*ft_monitor(void *arg)
-{
-	t_philo	*philos;
-	int		n_philos;
-	int		all_done;
-	int		i;
-
-	philos = (t_philo *)arg;
-	n_philos = philos[0].thread_id;
-	while (!*(philos[0].simulation_stop))
-	{
-		all_done = 1;
-		i = 0;
-		while (i < n_philos)
-		{
-			pthread_mutex_lock(philos[i].eaten_lock);
-			if (philos[i].n_times_to_eat != -1
-				&& philos[i].times_eaten < 
-				philos[i].n_times_to_eat)
-				all_done = 0;
-			pthread_mutex_unlock(philos[i].eaten_lock);
-			pthread_mutex_lock(philos[i].last_meal_lock);
-			if (current_timestamp() - philos[i].last_meal_time
-				> philos[i].time_to_die)
-			{
-				pthread_mutex_unlock(philos[i].last_meal_lock);
-				print_status(&philos[i], "morreu");
-				*(philos[0].simulation_stop) = 1;
-				return (NULL);
-			}
-			pthread_mutex_unlock(philos[i].last_meal_lock);
-			i++;
-		}
-		if (all_done)
-		{
-			*(philos[0].simulation_stop) = 1;
-			return (NULL);
-		}
-		usleep(1000);
-	}
-	return (NULL);
-}*/

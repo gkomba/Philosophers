@@ -6,7 +6,7 @@
 #    By: gkomba <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/03 15:51:45 by gkomba            #+#    #+#              #
-#    Updated: 2024/09/07 14:47:24 by gkomba           ###   ########.fr        #
+#    Updated: 2024/09/08 04:02:52 by gkomba           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,10 @@ SRCS = ph_main.c\
 	ph_actions.c\
 	ph_threads.c\
 	ph_mutexes.c\
-	ph_monitor.c
+	ph_monitor.c\
+	ph_init.c\
+	ph_inform.c\
+	ph_check.c
 
 OBJS = ${SRCS:.c=.o}
 CFLGS = -Wall -Wextra -Werror
