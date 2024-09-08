@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:36:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 04:43:04 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/08 05:39:08 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	*ft_monitor(void *arg)
 		i = -1;
 		while (++i < monitor->nbr_of_philo)
 		{
-			if (ft_set_time() - ft_check_last_time_ate(&philo[i])  > monitor->time_to_die)
+			if ((ft_set_time() - ft_check_last_time_ate(&philo[i]))
+				> monitor->time_to_die)
 			{
 				ft_print_message("Filosofo Esta Morto", &philo[i]);
 				ft_inform_is_dead(monitor, 1);
