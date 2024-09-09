@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 13:00:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 09:18:34 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/09 10:02:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_philo_eat_and_sleep(t_philo *philo)
 	ft_get_fork(philo);
 	ft_print_message("Filosofo Esta Comendo", philo);
 	ft_inform_time_ate(philo, 1);
-	ft_inform_last_snack(philo, ft_set_time());
+	ft_inform_last_time_ate(philo, ft_set_time());
 	usleep(philo->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->fork_l);
 	pthread_mutex_unlock(philo->fork_r);

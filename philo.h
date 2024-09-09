@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 10:26:00 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/09 10:02:35 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_print_message(char *fork, t_philo *philo);
 void	ft_init_philos(t_monitor *monitor, t_philo *philo,
 			pthread_mutex_t *forks, pthread_mutex_t *message_mutex);
 void	ft_inform_is_dead(t_monitor *monitor, size_t value);
-void	ft_inform_last_snack(t_philo *philo, size_t value);
+void	ft_inform_last_time_ate(t_philo *philo, size_t value);
 void	ft_inform_time_ate(t_philo *philo, int value);
 size_t	ft_time_diff(size_t start_time);
 size_t	ft_set_time(void);
