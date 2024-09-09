@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/09 10:02:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/09 19:00:19 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ typedef struct s_monitor
 	size_t				time_to_sleep;
 	size_t				time_to_die;
 	size_t				time_to_eat;
-	size_t				curr_time;
 	int					nbr_of_philo;
 	int					check_if_dead;
-	int					is_dead;
 	int					must_eat;
 }		t_monitor;
 
@@ -50,7 +48,6 @@ typedef struct s_philo
 	size_t				curr_time;
 	int					must_eat;
 	int					id_philo;
-	int					*dead;
 	t_monitor			*monitor;
 	pthread_t			thread_nbr;
 }				t_philo;

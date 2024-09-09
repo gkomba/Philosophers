@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:58:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/09 10:23:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/09 19:00:31 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
 		monitor->time_to_die = ft_atoi(argv[2]);
 		monitor->time_to_eat = ft_atoi(argv[3]);
 		monitor->time_to_sleep = ft_atoi(argv[4]);
-		monitor->curr_time = ft_set_time();
-		monitor->is_dead = 0;
 		monitor->check_if_dead = 0;
 		if (argv[5])
 			monitor->must_eat = ft_atoi(argv[5]);
