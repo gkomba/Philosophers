@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:52:55 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 10:24:50 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/11 18:53:03 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ int	ft_create_and_join_philo(t_philo *philo, int nbr_of_philo)
 			return (ft_putstr_fd("failed to join thread", 2), 1);
 		i++;
 	}
+	return (0);
 }

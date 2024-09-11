@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:58:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/09 19:00:31 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/11 18:54:43 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
 {
 	if ((argc == 5) || (argc == 6))
 	{
+		if (ft_atoi(argv[1]) == MAX)
+			return (printf("To exceded number of philos\n"), 1);
 		monitor->nbr_of_philo = ft_atoi(argv[1]);
 		monitor->time_to_die = ft_atoi(argv[2]);
 		monitor->time_to_eat = ft_atoi(argv[3]);
@@ -30,6 +32,7 @@ int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
 		return (printf("To few arguments\n"), 1);
 	else
 		return (printf("To Many arguments\n"), 1);
+	return (0);
 }
 
 int	ft_init_monitor_mutexes(t_monitor *monitor)
@@ -40,10 +43,13 @@ int	ft_init_monitor_mutexes(t_monitor *monitor)
 		return (ft_putstr_fd("failed to initialize a mutex", 2), 1);
 	if (pthread_mutex_init(&monitor->times_eat, NULL) != 0)
 		return (ft_putstr_fd("failed to initialize a mutex", 2), 1);
+	if (pthread_mutex_init(&monitor->message_mutex, NULL) != 0)
+		return (ft_putstr_fd("failed to initialize a mutex", 2), 1);
+	return (0);
 }
 
 void	ft_init_philos(t_monitor *monitor, t_philo *philo,
-		pthread_mutex_t *forks, pthread_mutex_t *message_mutex)
+		pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -51,12 +57,9 @@ void	ft_init_philos(t_monitor *monitor, t_philo *philo,
 	while (i < monitor->nbr_of_philo)
 	{
 		philo[i].id_philo = i + 1;
-		philo[i].time_to_die = monitor->time_to_die;
-		philo[i].time_to_eat = monitor->time_to_eat;
-		philo[i].time_to_sleep = monitor->time_to_sleep;
 		philo[i].fork_l = &forks[i];
 		philo[i].fork_r = &forks[(i + 1) % monitor->nbr_of_philo];
-		philo[i].message = message_mutex;
+		philo[i].message = &monitor->message_mutex;
 		philo[i].check_dead = &monitor->check_dead;
 		philo[i].check_last_meal = &monitor->check_last_meal;
 		philo[i].times_ate_mutex = &monitor->times_eat;
@@ -68,8 +71,7 @@ void	ft_init_philos(t_monitor *monitor, t_philo *philo,
 	}
 }
 
-int	ft_init_mutexes(pthread_mutex_t	*forks, int nbr_of_philo,
-		pthread_mutex_t *message_mutex)
+int	ft_init_mutexes(pthread_mutex_t	*forks, int nbr_of_philo)
 {
 	int	i;
 
@@ -80,6 +82,5 @@ int	ft_init_mutexes(pthread_mutex_t	*forks, int nbr_of_philo,
 			return (ft_putstr_fd("failed to initialize a mutex", 2), 1);
 		i++;
 	}
-	if (pthread_mutex_init(message_mutex, NULL) != 0)
-		return (ft_putstr_fd("failed to initialize a mutex", 2), 1);
+	return (0);
 }

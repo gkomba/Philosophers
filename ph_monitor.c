@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:36:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 10:39:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/11 18:52:28 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static	int	ft_set_philo_dead(t_monitor *monitor, t_philo *philo)
 
 void	*ft_monitor(void *arg)
 {
-	int				i;
 	t_monitor		*monitor;
 	t_philo			*philo;
 
