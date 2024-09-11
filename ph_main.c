@@ -6,16 +6,16 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:15:51 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/11 18:50:12 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/11 19:06:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void ft_routine_case_one_philo(t_philo *philo)
+static void	ft_routine_case_one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->fork_r);
-		ft_print_message("Filosofo Pegou Garfo O Direito", philo);
+	ft_print_message("Filosofo Pegou Garfo O Direito", philo);
 	usleep(philo->monitor->time_to_die * 1000);
 	pthread_mutex_unlock(philo->fork_r);
 }
