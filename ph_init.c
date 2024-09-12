@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:58:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/11 18:54:43 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/12 12:05:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_init_philos(t_monitor *monitor, t_philo *philo,
 		philo[i].times_ate_mutex = &monitor->times_eat;
 		philo[i].times_ate = 0;
 		philo[i].last_time_ate = ft_set_time();
-		philo[i].curr_time = ft_set_time();
+		philo[i].start_time = ft_set_time();
 		philo[i].monitor = monitor;
 		i++;
 	}

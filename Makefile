@@ -18,7 +18,7 @@ RM = rm -f
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	${CC} ${CFLGS}-o ${NAME} ${OBJS}
+	${CC} ${CFLGS} -o ${NAME} ${OBJS}
 
 %.o: %.c
 	${CC} ${CFLGS} -c $< -o $@
