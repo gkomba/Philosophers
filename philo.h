@@ -63,7 +63,7 @@ void	ft_init_philos(t_monitor *monitor, t_philo *philo,
 			pthread_mutex_t *forks);
 void	ft_inform_is_dead(t_monitor *monitor, size_t value);
 void	ft_inform_last_time_ate(t_philo *philo, size_t value);
-void	ft_inform_time_ate(t_philo *philo, int value);
+void	ft_inform_time_ate(t_philo *philo);
 size_t	ft_time_diff(size_t start_time);
 size_t	ft_set_time(void);
 size_t	ft_check_last_time_ate(t_philo *philo);

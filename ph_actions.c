@@ -45,7 +45,7 @@ void	ft_philo_eat_and_sleep(t_philo *philo)
 {
 	ft_get_fork(philo);
 	ft_print_message("Filosofo Esta Comendo", philo);
-	ft_inform_time_ate(philo, 1);
+	ft_inform_time_ate(philo);
 	ft_inform_last_time_ate(philo, ft_set_time());
 	usleep(philo->monitor->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->fork_l);

@@ -26,9 +26,9 @@ void	ft_inform_last_time_ate(t_philo *philo, size_t value)
 	pthread_mutex_unlock(philo->check_last_meal);
 }
 
-void	ft_inform_time_ate(t_philo *philo, int value)
+void	ft_inform_time_ate(t_philo *philo)
 {
 	pthread_mutex_lock(philo->times_ate_mutex);
-	philo->times_ate += value;
+	philo->times_ate++;
 	pthread_mutex_unlock(philo->times_ate_mutex);
 }

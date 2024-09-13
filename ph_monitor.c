@@ -19,7 +19,7 @@ static int	ft_all_philos_have_ate(t_philo *philo, t_monitor *monitor)
 	i = 0;
 	while (i < monitor->nbr_of_philo)
 	{
-		if (ft_check_times_ate(philo) < monitor->must_eat)
+		if (ft_check_times_ate(&philo[i]) < monitor->must_eat)
 			return (0);
 		i++;
 	}
