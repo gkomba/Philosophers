@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 13:00:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/13 14:50:21 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/13 16:34:13 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,28 @@ void	ft_get_fork(t_philo *philo)
 	if (philo->id_philo % 2 == 0)
 	{
 		pthread_mutex_lock(philo->fork_r);
-		ft_print_message("Filosofo Pegou O Garfo Direito", philo);
+		ft_print_message("has taken a fork", philo);
 		pthread_mutex_lock(philo->fork_l);
-		ft_print_message("Filosofo Pegou O Garfo Esquerdo", philo);
+		ft_print_message("has taken a fork", philo);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->fork_l);
-		ft_print_message("Filosofo Pegou O Garfo Esquerdo", philo);
+		ft_print_message("has taken a fork", philo);
 		pthread_mutex_lock(philo->fork_r);
-		ft_print_message("Filosofo Pegou O Garfo Direito", philo);
+		ft_print_message("has taken a fork", philo);
 	}
 }
 
 void	ft_philo_eat_and_sleep(t_philo *philo)
 {
 	ft_get_fork(philo);
-	ft_print_message("Filosofo Esta Comendo", philo);
+	ft_print_message(" is eating", philo);
 	ft_inform_time_ate(philo);
 	ft_inform_last_time_ate(philo, ft_set_time());
 	usleep(philo->monitor->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->fork_l);
 	pthread_mutex_unlock(philo->fork_r);
-	ft_print_message("Filosofo Esta Dormindo", philo);
+	ft_print_message("sleeping", philo);
 	usleep(philo->monitor->time_to_sleep * 1000);
 }
