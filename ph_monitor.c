@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:36:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/11 18:52:28 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/13 15:57:46 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ static int	ft_all_philos_have_ate(t_philo *philo, t_monitor *monitor)
 			return (0);
 		i++;
 	}
-	if (monitor->must_eat)
+	if (monitor->must_eat > 0)
 	{
 		pthread_mutex_lock(philo->message);
+		
 		printf("ALL PHILOS HAVE TAKE THE FOOD\n");
 		pthread_mutex_unlock(philo->message);
 		return (1);
@@ -41,7 +42,7 @@ static	int	ft_set_philo_dead(t_monitor *monitor, t_philo *philo)
 	while (++index < monitor->nbr_of_philo)
 	{
 		if ((ft_set_time() - ft_check_last_time_ate(&philo[index]))
-			> monitor->time_to_die)
+			> monitor->time_to_die + 4)
 		{
 			ft_print_message("Filosofo Esta Morto", &philo[index]);
 			ft_inform_is_dead(monitor, 1);
