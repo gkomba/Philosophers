@@ -15,7 +15,7 @@
 static void	ft_routine_case_one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->fork_r);
-	ft_print_message("Filosofo Pegou Garfo O Direito", philo);
+	ft_print_message("has taken a fork", philo);
 	usleep(philo->monitor->time_to_die * 1000);
 	pthread_mutex_unlock(philo->fork_r);
 }
