@@ -65,12 +65,12 @@ The Philosophers project helps students understand essential principles of multi
 
 1 - full command
 ```bash
-git clone https://github.com/gkomba/Philosophers.git
+git clone https://github.com/gkomba/Philosophers.git && cd Philosophers && make
 ```
 
 2 - Arguments
 
-*./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]*
+__./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]__
 
 Tests
 ```bash
