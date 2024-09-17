@@ -9,13 +9,13 @@ Is a classic exercise in concurrent programming, designed to teach students abou
 It is based on the famous Dining Philosophers Problem, originally formulated by Edsger Dijkstra, which explores the challenges of resource sharing and deadlocks in concurrent processes.
 
 # Key Concepts in the Philosophers Project:
-1 - The Problem:
+__1 - The Problem:__
 
 Imagine a group of philosophers seated around a table. Between each pair of philosophers, there is a fork. The philosophers alternate between thre activities: thinking, eating and sleeping.
 In order to eat, a philosopher must pick up the two forks adjacent to them (one on their left and one on their right).
 The challenge lies in coordinating the philosophers such that no two neighboring philosophers are holding the same fork at the same time, without leading to deadlock (where no one can eat because each philosopher is holding one fork and waiting for the other).
 
-2 - Concurrency and Threads:
+__2 - Concurrency and Threads:__
 
 A thread of execution is a logical sequence of instructions within a process that is automatically managed by the operating system kernel. A regular sequential program has a single thread, but modern operating systems allow us to create multiple threads in our programs, all of which run in parallel.
 
@@ -24,7 +24,7 @@ Each of a process's threads has its own context: its own ID, its own stack, its 
 Each philosopher is represented by a thread, which allows multiple philosophers to think, eat and sleep concurrently.
 Threads run independently, and you need to ensure that operations (like picking up and putting down forks) are synchronized to avoid race conditions (where multiple threads access shared resources at the same time).
 
-3 - Mutexes:
+__3 - Mutexes:__
 
 Mutexes (short for mutual exclusion locks) are used to manage access to the shared resources (forks in this case). They ensure that only one philosopher can hold a fork at any given time.
 By locking the fork when a philosopher picks it up and unlocking it when they put it down, mutexes prevent other philosophers from picking up the same fork simultaneously.
@@ -34,9 +34,11 @@ The main challenges in the project are race conditions (where two or more access
 The project teaches techniques to avoid these issues, such as:
 Ordering resource acquisition: Philosophers might be required to pick up the forks in a specific order.
 
-4 - Time limits: You will implement timeouts for how long a philosopher can stay whitout eat, and if this time is reached the philo must die.
+__4 - Time limits__ 
 
-5 - Synchronization:
+You will implement timeouts for how long a philosopher can stay whitout eat, and if this time is reached the philo must die.
+
+__5 - Synchronization:__
 
 Ensuring that threads synchronize properly (for instance, waiting until both forks are available before eating) is a crucial aspect of the project. This prevents inconsistent states where a philosopher is trying to eat without having the necessary forks.
 
