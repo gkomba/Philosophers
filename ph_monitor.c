@@ -23,13 +23,9 @@ static int	ft_all_philos_have_ate(t_philo *philo, t_monitor *monitor)
 			return (0);
 		i++;
 	}
+	ft_inform_is_dead(monitor, 1);
 	if (monitor->must_eat > 0)
-	{
-		pthread_mutex_lock(philo->message);
-		printf("ALL PHILOS HAVE TAKE THE FOOD\n");
-		pthread_mutex_unlock(philo->message);
 		return (1);
-	}
 	return (0);
 }
 
@@ -63,10 +59,7 @@ void	*ft_monitor(void *arg)
 		if (ft_set_philo_dead(monitor, philo))
 			break ;
 		if (ft_all_philos_have_ate(philo, monitor))
-		{
-			ft_inform_is_dead(monitor, 1);
 			break ;
-		}
 		usleep(1000);
 	}
 	return (NULL);
