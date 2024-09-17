@@ -69,9 +69,9 @@ git clone https://github.com/gkomba/Philosophers.git
 ```
 
 2 - Arguments
-```bash
-./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]
-```
+
+*./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]*
+
 Tests
 ```bash
 ./philo 1 800 200 200
