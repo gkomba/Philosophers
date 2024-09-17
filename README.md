@@ -34,12 +34,17 @@ The main challenges in the project are race conditions (where two or more access
 The project teaches techniques to avoid these issues, such as:
 Ordering resource acquisition: Philosophers might be required to pick up the forks in a specific order.
 
-Time limits: You will implement timeouts for how long a philosopher can stay whitout eat, and if this time is reached the philo must die.
+4 - Time limits: You will implement timeouts for how long a philosopher can stay whitout eat, and if this time is reached the philo must die.
 
-Synchronization:
+5 - Synchronization:
 
 Ensuring that threads synchronize properly (for instance, waiting until both forks are available before eating) is a crucial aspect of the project. This prevents inconsistent states where a philosopher is trying to eat without having the necessary forks.
 
 # Lessons Learned:
 The Philosophers project helps students understand essential principles of multithreading, resource management, and synchronization. It emphasizes how careful planning is required to ensure that systems with multiple concurrent operations run smoothly and without conflicts. This project is a stepping stone to understanding more complex synchronization mechanisms in real-world operating systems.
+
+# Resources
+
+https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/
+
 
