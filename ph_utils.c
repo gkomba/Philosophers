@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 12:18:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/06 13:44:29 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/17 12:35:18 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,27 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
+}
+
+static int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
+int	ft_find_alpha_in_list(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*str)
+	{
+		if (ft_isalpha(*str))
+			i = 1;
+		str++;
+	}
+	return (i);
 }
 
 int	ft_atoi(const char *nptr)
@@ -43,17 +64,4 @@ int	ft_atoi(const char *nptr)
 		nptr++;
 	}
 	return (resul * sign);
-}
-
-size_t	ft_set_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
-
-size_t	ft_time_diff(size_t start_time)
-{
-	return (ft_set_time() - start_time);
 }

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:58:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/13 14:50:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/17 12:35:02 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
 {
+	int	i;
+
+	i = 0;
+	while (argv[++i])
+		if (ft_find_alpha_in_list(argv[i]))
+			return (printf("Invalid arguments\n"), 1);
 	if ((argc == 5) || (argc == 6))
 	{
 		if (ft_atoi(argv[1]) == MAX)

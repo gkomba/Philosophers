@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/13 14:50:24 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/17 12:31:31 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int		ft_init_monitor_mutexes(t_monitor *monitor);
 int		ft_atoi(const char *nptr);
 int		ft_check_dead(t_monitor *monitor);
 int		ft_check_times_ate(t_philo *philo);
+int		ft_find_alpha_in_list(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:36:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/14 17:45:05 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/17 12:36:06 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int	ft_all_philos_have_ate(t_philo *philo, t_monitor *monitor)
 	if (monitor->must_eat > 0)
 	{
 		pthread_mutex_lock(philo->message);
-		
 		printf("ALL PHILOS HAVE TAKE THE FOOD\n");
 		pthread_mutex_unlock(philo->message);
 		return (1);

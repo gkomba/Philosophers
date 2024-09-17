@@ -6,6 +6,7 @@ SRCS = ph_main.c\
 	ph_mutexes.c\
 	ph_monitor.c\
 	ph_init.c\
+	ph_time.c\
 	ph_inform.c\
 	ph_check.c\
 
