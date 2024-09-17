@@ -45,6 +45,18 @@ The Philosophers project helps students understand essential principles of multi
 
 # Resources
 
+Book: Linux Programming Interface, chapter 30: THREADS: THREAD SYNCHRONIZATION
+
+https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&si=fAhbIlfEUVEfEf35
+
 https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/
 
+https://suspectedoceano.notion.site/Philosophers-b1bf3c57eee6420cafa7d0900b3d3216
 
+https://youtu.be/VSkvwzqo-Pk?si=FNaMjthVtC0ee4_M
+
+https://medium.com/@ridwaneelfilali/philosophers-the-dinning-problem-8ea3c0fc8cc7
+
+https://www.man7.org/tlpi/code/online/dist/threads/simple_thread.c.html
+
+https://www.personal.kent.edu/~rmuhamma/OpSystems/Myos/threads.htm
