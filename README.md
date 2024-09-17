@@ -45,18 +45,51 @@ The Philosophers project helps students understand essential principles of multi
 
 # Resources
 
-Book: Linux Programming Interface, chapter 30: THREADS: THREAD SYNCHRONIZATION
+-> Book: Linux Programming Interface, chapter 30: THREADS: THREAD SYNCHRONIZATION
 
-https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&si=fAhbIlfEUVEfEf35
+-> https://youtube.com/playlist?list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2&si=fAhbIlfEUVEfEf35
 
-https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/
+-> https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/
 
-https://suspectedoceano.notion.site/Philosophers-b1bf3c57eee6420cafa7d0900b3d3216
+-> https://suspectedoceano.notion.site/Philosophers-b1bf3c57eee6420cafa7d0900b3d3216
 
-https://youtu.be/VSkvwzqo-Pk?si=FNaMjthVtC0ee4_M
+-> https://youtu.be/VSkvwzqo-Pk?si=FNaMjthVtC0ee4_M
 
-https://medium.com/@ridwaneelfilali/philosophers-the-dinning-problem-8ea3c0fc8cc7
+-> https://medium.com/@ridwaneelfilali/philosophers-the-dinning-problem-8ea3c0fc8cc7
 
-https://www.man7.org/tlpi/code/online/dist/threads/simple_thread.c.html
+-> https://www.man7.org/tlpi/code/online/dist/threads/simple_thread.c.html
 
-https://www.personal.kent.edu/~rmuhamma/OpSystems/Myos/threads.htm
+-> https://www.personal.kent.edu/~rmuhamma/OpSystems/Myos/threads.htm
+
+# Run Philosophers
+
+1 - full command
+```bash
+git clone https://github.com/gkomba/Philosophers.git
+```
+
+2 - Arguments
+```bash
+./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]
+```
+Tests
+```bash
+./philo 1 800 200 200
+```
+- Philosopher should not eat and should die.
+```bash
+./philo 5 800 200 200
+```
+ - No Philosopher should die.
+```bash
+./philo 5 800 200 200 7
+```
+ - No Philosopher should die and the simulation should stop when every philosopher has eaten at least 7 times.
+```bash
+./philo 4 410 200 200
+```
+ - No Philosopher should die.
+```bash
+./philo 4 310 200 100
+```
+ - One Philosopher should die.
