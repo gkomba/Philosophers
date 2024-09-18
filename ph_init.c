@@ -22,7 +22,7 @@ int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
 			return (printf("Invalid arguments\n"), 1);
 	if ((argc == 5) || (argc == 6))
 	{
-		if (ft_atoi(argv[1]) == MAX)
+		if (ft_atoi(argv[1]) > MAX)
 			return (printf("To exceded number of philos\n"), 1);
 		monitor->nbr_of_philo = ft_atoi(argv[1]);
 		monitor->time_to_die = ft_atoi(argv[2]);
