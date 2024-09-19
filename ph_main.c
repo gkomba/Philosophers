@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:15:51 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/13 16:34:53 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/19 16:50:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	*ft_routine(void *arg)
 	}
 	while (!ft_check_dead(philo->monitor))
 	{
-		ft_philo_eat_and_sleep(philo);
 		ft_print_message("thinking", philo);
+		ft_philo_eat_and_sleep(philo);
 	}
 	return (NULL);
 }
