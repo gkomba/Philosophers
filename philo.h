@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/17 12:31:31 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/19 16:57:20 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ typedef struct s_philo
 {
 	pthread_mutex_t		*fork_r;
 	pthread_mutex_t		*fork_l;
-	pthread_mutex_t		*message;
-	pthread_mutex_t		*check_dead;
-	pthread_mutex_t		*check_last_meal;
-	pthread_mutex_t		*times_ate_mutex;
 	size_t				last_time_ate;
 	size_t				start_time;
 	int					times_ate;

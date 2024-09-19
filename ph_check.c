@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:34:25 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/08 10:18:39 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/19 16:58:41 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ size_t	ft_check_last_time_ate(t_philo *philo)
 {
 	size_t	res;
 
-	pthread_mutex_lock(philo->check_last_meal);
+	pthread_mutex_lock(&philo->monitor->check_last_meal);
 	res = philo->last_time_ate;
-	pthread_mutex_unlock(philo->check_last_meal);
+	pthread_mutex_unlock(&philo->monitor->check_last_meal);
 	return (res);
 }
 
@@ -36,8 +36,8 @@ int	ft_check_times_ate(t_philo *philo)
 {
 	int	res;
 
-	pthread_mutex_lock(philo->times_ate_mutex);
+	pthread_mutex_lock(&philo->monitor->times_eat);
 	res = philo->times_ate;
-	pthread_mutex_unlock(philo->times_ate_mutex);
+	pthread_mutex_unlock(&philo->monitor->times_eat);
 	return (res);
 }

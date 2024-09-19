@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 13:00:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/13 16:34:13 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/19 16:55:44 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	ft_print_message(char *sms, t_philo *philo)
 {
-	if (pthread_mutex_lock(philo->message) == 0)
+	if (pthread_mutex_lock(&philo->monitor->message_mutex) == 0)
 	{
 		if (!ft_check_dead(philo->monitor))
 			printf("[%ld] %d %s\n",
 				ft_time_diff(philo->start_time), philo->id_philo, sms);
-		pthread_mutex_unlock(philo->message);
+		pthread_mutex_unlock(&philo->monitor->message_mutex);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:58:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/17 12:35:02 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/19 16:54:50 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,6 @@ void	ft_init_philos(t_monitor *monitor, t_philo *philo,
 		philo[i].id_philo = i + 1;
 		philo[i].fork_l = &forks[i];
 		philo[i].fork_r = &forks[(i + 1) % monitor->nbr_of_philo];
-		philo[i].message = &monitor->message_mutex;
-		philo[i].check_dead = &monitor->check_dead;
-		philo[i].check_last_meal = &monitor->check_last_meal;
-		philo[i].times_ate_mutex = &monitor->times_eat;
 		philo[i].times_ate = 0;
 		philo[i].last_time_ate = ft_set_time();
 		philo[i].start_time = ft_set_time();
