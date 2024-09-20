@@ -32,8 +32,8 @@ void	*ft_routine(void *arg)
 	}
 	while (!ft_check_dead(philo->monitor))
 	{
-		ft_print_message("thinking", philo);
 		ft_philo_eat_and_sleep(philo);
+		ft_print_message("thinking", philo);
 	}
 	return (NULL);
 }

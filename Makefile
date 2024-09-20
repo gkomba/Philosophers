@@ -11,7 +11,7 @@ SRCS = ph_main.c\
 	ph_check.c\
 
 OBJS = ${SRCS:.c=.o}
-DTRCF = -fsanitize=thread -g
+DTRCF = -fsanitize=thread -fsanitize=undefined -g
 CC = cc
 CFLGS = -Wall -Wextra -Werror
 RM = rm -f

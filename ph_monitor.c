@@ -23,8 +23,12 @@ static int	ft_all_philos_have_ate(t_philo *philo, t_monitor *monitor)
 			return (0);
 		i++;
 	}
-	ft_inform_is_dead(monitor, 1);
-	return (1);
+	if (monitor->must_eat > 0)
+	{
+		ft_inform_is_dead(monitor, 1);
+		return (1);
+	}
+	return (0);
 }
 
 static	int	ft_set_philo_dead(t_monitor *monitor, t_philo *philo)
@@ -56,9 +60,8 @@ void	*ft_monitor(void *arg)
 	{
 		if (ft_set_philo_dead(monitor, philo))
 			break ;
-		if (monitor->must_eat > 0)
-			if (ft_all_philos_have_ate(philo, monitor))
-				break ;
+		if (ft_all_philos_have_ate(philo, monitor))
+			break ;
 		usleep(1000);
 	}
 	return (NULL);

@@ -34,6 +34,8 @@ int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
 		else
 			monitor->must_eat = 0;
 	}
+	else if (argc == 1)
+		return (1);
 	else if (argc < 6)
 		return (printf("To few arguments\n"), 1);
 	else
