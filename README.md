@@ -1,6 +1,6 @@
 # Philosophers
 
-# Short descrition
+## Short descrition
 
 Philosophers is the project that will make you find out about thread and mutexes, and how you can syncronize operations that occur at the same time on the operation system.
 
@@ -8,7 +8,7 @@ Is a classic exercise in concurrent programming, designed to teach students abou
 
 It is based on the famous Dining Philosophers Problem, originally formulated by Edsger Dijkstra, which explores the challenges of resource sharing and deadlocks in concurrent processes.
 
-# Key Concepts in the Philosophers Project:
+## Key Concepts in the Philosophers Project:
 __1 - The Problem:__
 
 Imagine a group of philosophers seated around a table. Between each pair of philosophers, there is a fork. The philosophers alternate between thre activities: thinking, eating and sleeping.
@@ -42,10 +42,10 @@ __5 - Synchronization:__
 
 Ensuring that threads synchronize properly (for instance, waiting until both forks are available before eating) is a crucial aspect of the project. This prevents inconsistent states where a philosopher is trying to eat without having the necessary forks.
 
-# Lessons Learned:
+## Lessons Learned:
 The Philosophers project helps students understand essential principles of multithreading, resource management, and synchronization. It emphasizes how careful planning is required to ensure that systems with multiple concurrent operations run smoothly and without conflicts. This project is a stepping stone to understanding more complex synchronization mechanisms in real-world operating systems.
 
-# Resources
+## Resources
 
 __->__ Book: Linux Programming Interface, chapter 30: THREADS: THREAD SYNCHRONIZATION
 
@@ -63,7 +63,7 @@ __->__ https://www.man7.org/tlpi/code/online/dist/threads/simple_thread.c.html
 
 __->__ https://www.personal.kent.edu/~rmuhamma/OpSystems/Myos/threads.htm
 
-# Run Philosophers
+## Run Philosophers
 
 1 - full command
 ```bash
