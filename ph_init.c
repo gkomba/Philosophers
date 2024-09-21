@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:58:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/21 14:44:00 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/21 14:51:56 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,16 @@ static int	ft_input_error(int argc, char **argv)
 			return (printf("Invalid arguments\n"), 1);
 	if (argc == 1)
 		return (1);
+	else if ((argc == 5) || (argc == 6))
+	{
+		if (ft_atoi(argv[1]) > MAX)
+			return (printf("To exceded number of philos\n"), 1);
+		return (0);
+	}
 	else if (argc < 6)
 		return (printf("To few arguments\n"), 1);
 	else
 		return (printf("To Many arguments\n"), 1);
-	if (ft_atoi(argv[1]) > MAX)
-		return (printf("To exceded number of philos\n"), 1);
 	return (0);
 }
 
