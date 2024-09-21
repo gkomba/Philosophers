@@ -6,13 +6,13 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 00:58:12 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/21 11:34:05 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/21 14:44:00 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
+static int	ft_input_error(int argc, char **argv)
 {
 	int	i;
 
@@ -20,26 +20,30 @@ int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
 	while (argv[++i])
 		if (ft_find_alpha_in_list(argv[i]))
 			return (printf("Invalid arguments\n"), 1);
-	if ((argc == 5) || (argc == 6))
-	{
-		if (ft_atoi(argv[1]) > MAX)
-			return (printf("To exceded number of philos\n"), 1);
-		monitor->nbr_of_philo = ft_atoi(argv[1]);
-		monitor->time_to_die = ft_atoi(argv[2]);
-		monitor->time_to_eat = ft_atoi(argv[3]);
-		monitor->time_to_sleep = ft_atoi(argv[4]);
-		monitor->stop_simulation = 0;
-		if (argv[5])
-			monitor->must_eat = ft_atoi(argv[5]);
-		else
-			monitor->must_eat = 0;
-	}
-	else if (argc == 1)
+	if (argc == 1)
 		return (1);
 	else if (argc < 6)
 		return (printf("To few arguments\n"), 1);
 	else
 		return (printf("To Many arguments\n"), 1);
+	if (ft_atoi(argv[1]) > MAX)
+		return (printf("To exceded number of philos\n"), 1);
+	return (0);
+}
+
+int	ft_init_monitor(int argc, char **argv, t_monitor *monitor)
+{
+	if (ft_input_error(argc, argv))
+		return (1);
+	monitor->nbr_of_philo = ft_atoi(argv[1]);
+	monitor->time_to_die = ft_atoi(argv[2]);
+	monitor->time_to_eat = ft_atoi(argv[3]);
+	monitor->time_to_sleep = ft_atoi(argv[4]);
+	monitor->stop_simulation = 0;
+	if (argv[5])
+		monitor->must_eat = ft_atoi(argv[5]);
+	else
+		monitor->must_eat = 0;
 	return (0);
 }
 
