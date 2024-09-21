@@ -6,17 +6,29 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 13:00:40 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/20 16:00:35 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/21 14:14:43 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	check_philo_eat(t_philo *philo)
+{
+	if (philo->monitor->must_eat > 0)
+	{
+		if (philo->times_ate < philo->monitor->must_eat)
+			return (0);
+		else
+			return (1);
+	}
+	return (0);
+}
+
 void	ft_print_message(char *sms, t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->monitor->message_mutex) == 0)
 	{
-		if (!ft_check_dead(philo->monitor))
+		if (!ft_stop_simulation(philo->monitor) && !check_philo_eat(philo))
 			printf("[%ld] %d %s\n",
 				ft_time_diff(philo->start_time), philo->id_philo, sms);
 		pthread_mutex_unlock(&philo->monitor->message_mutex);
@@ -25,20 +37,24 @@ void	ft_print_message(char *sms, t_philo *philo)
 
 void	ft_get_fork(t_philo *philo)
 {
-	if (philo->id_philo % 2 == 0)
+	if (!ft_stop_simulation(philo->monitor) && !check_philo_eat(philo))
 	{
-		pthread_mutex_lock(philo->fork_r);
-		ft_print_message("has taken a fork", philo);
-		pthread_mutex_lock(philo->fork_l);
-		ft_print_message("has taken a fork", philo);
+		if (philo->id_philo % 2 == 0)
+		{
+			pthread_mutex_lock(philo->fork_r);
+			ft_print_message("has taken a fork", philo);
+			pthread_mutex_lock(philo->fork_l);
+			ft_print_message("has taken a fork", philo);
+		}
+		else
+		{
+			pthread_mutex_lock(philo->fork_l);
+			ft_print_message("has taken a fork", philo);
+			pthread_mutex_lock(philo->fork_r);
+			ft_print_message("has taken a fork", philo);
+		}
 	}
-	else
-	{
-		pthread_mutex_lock(philo->fork_l);
-		ft_print_message("has taken a fork", philo);
-		pthread_mutex_lock(philo->fork_r);
-		ft_print_message("has taken a fork", philo);
-	}
+	return ;
 }
 
 void	ft_philo_eat_and_sleep(t_philo *philo)
@@ -50,6 +66,9 @@ void	ft_philo_eat_and_sleep(t_philo *philo)
 	usleep(philo->monitor->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->fork_l);
 	pthread_mutex_unlock(philo->fork_r);
-	ft_print_message("sleeping", philo);
-	usleep(philo->monitor->time_to_sleep * 1000);
+	if (!ft_stop_simulation(philo->monitor))
+	{
+		ft_print_message("sleeping", philo);
+		usleep(philo->monitor->time_to_sleep * 1000);
+	}
 }

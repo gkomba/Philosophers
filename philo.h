@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:48:17 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/19 16:57:20 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/21 11:36:22 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_monitor
 	size_t				time_to_die;
 	size_t				time_to_eat;
 	int					nbr_of_philo;
-	int					check_if_dead;
+	int					stop_simulation;
 	int					must_eat;
 	pthread_t			monitor_thread;
 }		t_monitor;
@@ -57,7 +57,7 @@ void	ft_philo_eat_and_sleep(t_philo *philo);
 void	ft_print_message(char *fork, t_philo *philo);
 void	ft_init_philos(t_monitor *monitor, t_philo *philo,
 			pthread_mutex_t *forks);
-void	ft_inform_is_dead(t_monitor *monitor, size_t value);
+void	ft_inform_stop_simulation(t_monitor *monitor, size_t value);
 void	ft_inform_last_time_ate(t_philo *philo, size_t value);
 void	ft_inform_time_ate(t_philo *philo);
 size_t	ft_time_diff(size_t start_time);
@@ -68,8 +68,9 @@ int		ft_init_monitor(int argc, char **argv, t_monitor *monitor);
 int		ft_init_mutexes(pthread_mutex_t	*forks, int nbr_of_philo);
 int		ft_init_monitor_mutexes(t_monitor *monitor);
 int		ft_atoi(const char *nptr);
-int		ft_check_dead(t_monitor *monitor);
+int		ft_stop_simulation(t_monitor *monitor);
 int		ft_check_times_ate(t_philo *philo);
 int		ft_find_alpha_in_list(char *str);
+int		check_philo_eat(t_philo *philo);
 
 #endif

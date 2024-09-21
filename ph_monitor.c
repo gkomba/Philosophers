@@ -6,7 +6,7 @@
 /*   By: gkomba <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:36:18 by gkomba            #+#    #+#             */
-/*   Updated: 2024/09/17 12:36:06 by gkomba           ###   ########.fr       */
+/*   Updated: 2024/09/21 11:34:55 by gkomba           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_all_philos_have_ate(t_philo *philo, t_monitor *monitor)
 	}
 	if (monitor->must_eat > 0)
 	{
-		ft_inform_is_dead(monitor, 1);
+		ft_inform_stop_simulation(monitor, 1);
 		return (1);
 	}
 	return (0);
@@ -42,7 +42,7 @@ static	int	ft_set_philo_dead(t_monitor *monitor, t_philo *philo)
 			> monitor->time_to_die + 2)
 		{
 			ft_print_message("died", &philo[index]);
-			ft_inform_is_dead(monitor, 1);
+			ft_inform_stop_simulation(monitor, 1);
 			return (1);
 		}
 	}
@@ -56,7 +56,7 @@ void	*ft_monitor(void *arg)
 
 	philo = (t_philo *)arg;
 	monitor = philo[0].monitor;
-	while (!ft_check_dead(monitor))
+	while (!ft_stop_simulation(monitor))
 	{
 		if (ft_set_philo_dead(monitor, philo))
 			break ;
